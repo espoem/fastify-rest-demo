@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Astronaut {
+  id          Int          @id @default(autoincrement())
+  name        String
+  surname     String
+  birthdate   DateTime     @db.Date
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  superpowers Superpower[]
+}
+
+model Superpower {
+  id          Int        @id @default(autoincrement())
+  name        String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  astronaut   Astronaut? @relation(fields: [astronautId], references: [id])
+  astronautId Int?
+}
