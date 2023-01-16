@@ -4,7 +4,6 @@ import {
   FastifyReply,
   FastifyRequest,
 } from "fastify";
-import prisma from "../../database";
 import {
   createAstronaut,
   deleteAstronaut,

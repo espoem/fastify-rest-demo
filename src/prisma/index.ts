@@ -6,7 +6,17 @@ export function getAstronauts() {
   });
 }
 
-export function createAstronaut({ name, surname, birthdate, superpowers }) {
+export function createAstronaut({
+  name,
+  surname,
+  birthdate,
+  superpowers,
+}: {
+  name: string;
+  surname: string;
+  birthdate: string;
+  superpowers: { name: string }[];
+}) {
   return prisma.astronaut.create({
     data: {
       name: name,
@@ -40,7 +50,19 @@ export async function deleteAstronaut(id: number) {
   await prisma.$transaction([deleteSuperpowers, deleteAstronauts]);
 }
 
-export function updateAstronaut({ id, name, surname, birthdate, superpowers }) {
+export function updateAstronaut({
+  id,
+  name,
+  surname,
+  birthdate,
+  superpowers,
+}: {
+  id: number;
+  name: string;
+  surname: string;
+  birthdate: string;
+  superpowers: { name: string; id: number }[];
+}) {
   return prisma.astronaut.update({
     where: { id: +id },
     data: {
