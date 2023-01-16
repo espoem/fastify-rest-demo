@@ -90,3 +90,15 @@ export function updateAstronaut({
     include: { superpowers: true },
   });
 }
+
+export async function deleteSuperpower(id: number) {
+  await prisma.superpower.delete({
+    where: { id },
+  });
+}
+
+export function getSuperpower(id: number) {
+  return prisma.superpower.findUnique({
+    where: { id },
+  });
+}

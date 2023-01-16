@@ -1,9 +1,50 @@
-import { FastifyPluginAsync } from "fastify";
+import {
+  FastifyInstance,
+  FastifyPluginAsync,
+  FastifyReply,
+  FastifyRequest,
+} from "fastify";
+import { deleteSuperpower, getSuperpower } from "../../prisma";
+import {
+  deleteSuperpowerSchema,
+  getSuperpowerSchema,
+} from "../../schemas/superpower";
 
-const example: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
-  fastify.get("/", async function (request, reply) {
-    return "this is an example";
-  });
+const superpowers: FastifyPluginAsync = async (
+  fastify: FastifyInstance,
+  opts
+): Promise<void> => {
+  fastify.get(
+    "/:id",
+    getSuperpowerSchema,
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      const { id } = request.params as { id: string };
+      const superpower = await getSuperpower(+id);
+
+      if (!superpower) {
+        reply.status(404).send({ message: "Superpower not found" });
+        return;
+      }
+
+      return superpower;
+    }
+  );
+
+  fastify.delete(
+    "/:id",
+    deleteSuperpowerSchema,
+    async function (request: FastifyRequest, reply) {
+      const { id } = request.params as { id: string };
+      try {
+        await deleteSuperpower(+id);
+      } catch (error) {
+        reply.status(404).send({ message: "Superpower not found" });
+        return;
+      }
+
+      reply.status(204).send();
+    }
+  );
 };
 
-export default example;
+export default superpowers;
