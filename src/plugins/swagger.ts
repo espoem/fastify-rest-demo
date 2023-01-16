@@ -16,7 +16,7 @@ async function swaggerGenerator(fastify: FastifyInstance, opts: any) {
         url: "https://github.com/espoem",
         description: "Find more info here",
       },
-      host: "localhost", // and your deployed url
+      host: process.env.HOST || "localhost", // and your deployed url
       schemes: ["http", "https"],
       consumes: ["application/json"],
       produces: ["application/json", "text/html"],
