@@ -1,5 +1,19 @@
 import { RouteShorthandOptions } from "fastify";
 
+export const getSuperpowersSchema: RouteShorthandOptions = {
+  schema: {
+    description: "Get all superpowers",
+    response: {
+      200: {
+        type: "array",
+        items: {
+          $ref: "superpower#",
+        },
+      },
+    },
+  },
+};
+
 export const getSuperpowerSchema: RouteShorthandOptions = {
   schema: {
     description: "Get superpower by id",

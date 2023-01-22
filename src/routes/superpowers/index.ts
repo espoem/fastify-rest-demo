@@ -4,16 +4,26 @@ import {
   FastifyReply,
   FastifyRequest,
 } from "fastify";
-import { deleteSuperpower, getSuperpower } from "../../prisma";
+import { deleteSuperpower, getSuperpower, getSuperpowers } from "../../prisma";
 import {
   deleteSuperpowerSchema,
   getSuperpowerSchema,
+  getSuperpowersSchema,
 } from "../../schemas/superpower";
 
 const superpowers: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts
 ): Promise<void> => {
+  fastify.get(
+    "/",
+    getSuperpowersSchema,
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      const superpowers = await getSuperpowers();
+      return superpowers;
+    }
+  );
+
   fastify.get(
     "/:id",
     getSuperpowerSchema,

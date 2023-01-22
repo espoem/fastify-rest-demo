@@ -102,3 +102,7 @@ export function getSuperpower(id: number) {
     where: { id },
   });
 }
+
+export function getSuperpowers() {
+  return prisma.superpower.findMany();
+}
